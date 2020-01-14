@@ -1,0 +1,259 @@
+
+
+
+
+
+/**
+ *
+ * @author saman_tajalli
+ */
+import java.text.DecimalFormat;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class Demo extends JFrame implements ActionListener, ItemListener 
+{
+
+   
+    //JButton exitButton = new JButton("Exit");
+    JButton enterButton = new JButton("Calculate");
+   //                            JButton resetButton = new JButton("Reset");
+    JCheckBox menu = new JCheckBox("Menu"); // select this for menu input using tf for mortgage doing setEditablefalse for rat&ter
+     //                 select this for user input on textfields, doing setEditabletrue 
+    JCheckBox userInput = new JCheckBox("User Input");
+    
+    ButtonGroup choiceGroup = new ButtonGroup();
+    
+    JTextField tf = new JTextField("Enter mortgage",10);
+    JTextField rat = new JTextField("Rate appears here",10);
+    JTextField ter = new JTextField("Term appears here",10);
+    JTextField mp = new JTextField(10); // monthly pay to be displayed
+    JTextArea output = new JTextArea(10, 20); // add a scrollpane
+    JScrollPane displayScroll = new JScrollPane(output,
+        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    //JToolBar bar = new JToolBar();//to hold scrollpane
+    JMenuItem tr1,tr2,tr3,re1,re2;//term&rate, reset&exit menuitem on top
+    
+    JLabel label = new JLabel("Mortgage             ");
+    JLabel label1 = new JLabel("rate      ");
+    JLabel labe = new JLabel("           ");
+    JLabel labe1 = new JLabel("            ");
+    JLabel labe2 = new JLabel("            ");
+    JLabel label2 = new JLabel("term      ");
+    double mortgage; // the principal
+    double rate, monthlyPayment, term;
+    String s, t, u;
+    DecimalFormat twoDigits = new DecimalFormat("0.00");
+    
+    public Demo()
+    {
+        super("This is my frame");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JMenuBar jmb = new JMenuBar(); // Menu bar
+        setJMenuBar(jmb); // set the Menu bar
+        
+        JMenu termRate = new JMenu("Term & Rate");
+        termRate.setMnemonic('T');
+        jmb.add(termRate); // add "Term & rate" to the Menu bar
+        
+        JMenu resetExit = new JMenu("Reset & Exit");
+        resetExit.setMnemonic('R');
+        jmb.add(resetExit); // add "Reset & Exit to the Menu bar
+        
+        termRate.add(tr1 = new JMenuItem("7 year & 5.35% rate"));
+        termRate.add(tr2 = new JMenuItem("15 year & 5.5%"));
+        termRate.add(tr3 = new JMenuItem("30 year & 5.75%"));
+        resetExit.add(re1 = new JMenuItem("Reset"));
+        resetExit.add(re2 = new JMenuItem("Exit"));
+        
+       
+        JPanel myPanel = new JPanel();
+      
+        myPanel.add(menu);
+        myPanel.add(userInput);
+        choiceGroup.add(menu);
+        choiceGroup.add(userInput);
+        
+        
+        
+        myPanel.add(label);
+        myPanel.add(tf);
+        
+        myPanel.add(labe);
+        
+        
+        myPanel.add(labe1);
+        myPanel.add(labe2);
+        myPanel.add(label2);
+        myPanel.add(ter);
+        myPanel.add(rat);
+        myPanel.add(label1);
+        myPanel.add(enterButton);
+       // myPanel.add(exitButton);
+       // myPanel.add(resetButton);
+       // rat.setText("");
+        //myPanel.add(output);
+        myPanel.add(displayScroll); // add scrollpane to jpanel
+        setContentPane(myPanel);
+        //exitButton.addActionListener(this);
+       // enterButton.addActionListener(this);
+       // resetButton.addActionListener(this);
+        enterButton.addActionListener(this);
+        tr1.addActionListener(this);//jmenuitem
+        tr2.addActionListener(this);//jmenuitem
+        tr3.addActionListener(this);//jmenuitem
+        re1.addActionListener(this);//jmenuitem
+        re2.addActionListener(this);//jmenuitem
+        menu.addItemListener(this);
+        userInput.addItemListener(this);
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) 
+    {
+        // TODO code application logic here
+       
+        
+       Demo frame = new Demo();
+       frame.setSize(400,400);
+       frame.pack();
+       frame.setVisible(true);
+    }
+    
+     public void actionPerformed(ActionEvent e)
+     {
+         String actionCommand = e.getActionCommand();
+         Object source = e.getSource();
+         if (source == enterButton)
+         {
+             s = tf.getText();
+             mortgage = Double.parseDouble(s);
+             double temp = mortgage;
+             
+             u = ter.getText();
+             term = Double.parseDouble(u) * 12.0;
+             
+             t = rat.getText();
+             rate = Double.parseDouble(t) / 1200.0;
+             
+             monthlyPayment = (mortgage * rate) / (1-Math.pow(rate+1, -term));
+             tf.setEditable(false);
+             rat.setEditable(false);
+             ter.setEditable(false);
+             
+             for (int i = 1; i <= term;i++)
+            {     
+	     double interest_paid = mortgage * rate;
+	     double princPaid = monthlyPayment - interest_paid;
+	     mortgage = mortgage - princPaid;
+             
+             output.append("The monthly payment is " + twoDigits.format(monthlyPayment));
+		     output.append("\nthe interest paid is " + twoDigits.format(interest_paid)
+		     + "\nThe principal was " + twoDigits.format(temp)
+                             + "\nBalance is now " + twoDigits.format(mortgage) + "\n\n");
+            }
+             
+         }
+        if (e.getSource() instanceof JMenuItem)
+         {
+             if("7 year & 5.35% rate".equals(actionCommand))
+                 calculate(7); // use 7 year & 5.35% calculation to find nums
+             
+             else if("15 year & 5.5%".equals(actionCommand))
+             calculate(15);
+             
+             else if("30 year & 5.75%".equals(actionCommand))
+                   calculate(30);
+            
+             else if("Reset".equals(actionCommand))
+             {
+                 rat.setText("");
+                tf.setText("");
+                ter.setText("");
+            
+                tf.setEditable(true);
+                ter.setEditable(true);
+                rat.setEditable(true);
+            
+                 output.setText("Start over");  
+             }
+             else if("Exit".equals(actionCommand))
+                 System.exit(0);
+             
+             //tf.setEditable(false);
+             //rat.setEditable(false);
+           
+                     
+                       
+         }// end if
+         
+        
+    }
+     public void itemStateChanged(ItemEvent check)
+     {
+         Object source = check.getItem();
+         if (source == menu)
+         {
+             int select = check.getStateChange();
+             if (select == ItemEvent.SELECTED)
+             {
+                 rat.setEditable(false);
+                 ter.setEditable(false);
+             }
+         }
+         if (source == userInput)
+         {
+             int select = check.getStateChange();
+             if (select == ItemEvent.SELECTED)
+             {
+                 rat.setEditable(true);
+                 ter.setEditable(true);
+             }
+         }
+             
+     }
+     private void calculate(int num)
+     {
+         s = tf.getText();
+         mortgage = Double.parseDouble(s);
+         double temp = mortgage;
+         if (num == 7)
+         {
+             ter.setText(" 7 years");
+             rat.setText(" 5.35%");
+             term = 7 * 12.0;
+             rate = 5.35 / 1200.0;
+         }
+         else if (num == 15)
+         {
+             ter.setText(" 15 years ");
+             rat.setText(" 5.5%");
+             term = 15 * 12.0;
+             rate = 5.5 / 1200;
+         }
+         else if (num == 30)
+         {
+             ter.setText(" 30 years");
+             rat.setText(" 5.75%"); 
+             term = 30 * 12.0;
+             rate = 5.75 / 1200;
+         }
+         monthlyPayment = (mortgage* rate) / (1-Math.pow(rate + 1, -term));
+         for (int i = 1; i <= term;i++)
+         {     
+	     double interest_paid = mortgage * rate;
+	     double princPaid = monthlyPayment - interest_paid;
+	     mortgage = mortgage - princPaid;
+         
+             output.append("The monthly payment is " + twoDigits.format(monthlyPayment));
+		     output.append("\nthe interest paid is " + twoDigits.format(interest_paid)
+		     + "\nThe principal was " + twoDigits.format(temp)
+                             + "\nBalance is now " + twoDigits.format(mortgage) + "\n\n");
+         }
+     }
+    
+}
+

@@ -1,0 +1,95 @@
+
+/**
+ *
+ * @author Saman Tajalli
+ */
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class JavaApplication22 extends JFrame implements ActionListener 
+{
+
+   
+    JButton exitButton = new JButton("Exit");
+    JButton enterButton = new JButton("Calculate");
+    JButton resetButton = new JButton("Reset");
+    JTextField tf = new JTextField(10);
+    JTextField data = new JTextField(10);
+    JTextArea output = new JTextArea(5, 20);
+    JLabel label = new JLabel("Enter first numbers             ");
+    JLabel label1 = new JLabel("Enter second number      ");
+    JLabel labe = new JLabel("           ");
+    JLabel labe1 = new JLabel("          ");
+    int num, num1, total;
+    String s, t;
+    
+    public JavaApplication22()
+    {
+        super("This is my frame");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel myPanel = new JPanel();
+        myPanel.add(label);
+        myPanel.add(tf);
+        myPanel.add(labe);
+        myPanel.add(label1);
+        myPanel.add(data);
+        myPanel.add(labe1);
+        myPanel.add(enterButton);
+        myPanel.add(exitButton);
+        myPanel.add(resetButton);
+        data.setText("");
+        myPanel.add(output);
+        setContentPane(myPanel);
+        exitButton.addActionListener(this);
+        enterButton.addActionListener(this);
+        resetButton.addActionListener(this);
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) 
+    {
+        // TODO code application logic here
+       
+        
+       JavaApplication22 frame = new JavaApplication22();
+       frame.setSize(400,200);
+       frame.setVisible(true);
+    }
+    
+     public void actionPerformed(ActionEvent e)
+     {
+         Object source = e.getSource();
+        if (source == enterButton)
+         {
+             s = tf.getText();
+             num = Integer.parseInt(s);
+             t = data.getText();
+             num1 = Integer.parseInt(t);
+             total = num + num1;
+             tf.setEditable(false);
+             data.setEditable(false);
+           
+                     output.setText("The answer is " + total);
+                       
+         }// end if
+         else if (source == resetButton)
+         {
+            data.setText("");
+            tf.setText("");
+            
+            tf.setEditable(true);
+            
+            data.setEditable(true);
+            
+            output.setText("Start over");
+         }
+         else if (source == exitButton)
+         {
+             System.exit(0);
+         }
+        
+    }
+    
+}

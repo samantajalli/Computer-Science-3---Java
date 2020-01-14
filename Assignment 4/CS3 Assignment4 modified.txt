@@ -1,0 +1,67 @@
+package practice;
+
+/**
+ *
+ * @author saman_tajalli
+ */
+import javax.swing.JOptionPane;
+import java.text.DecimalFormat;
+public class ArrayInit {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) 
+            {
+                DecimalFormat change = new DecimalFormat("0.00");
+       String PRINCIPAL;
+       double rate[] = {5.35, 5.5, 5.75};
+       double term[] = {7, 15, 30};
+       double p[] = {0, 0, 0}; // principal array
+       int count = 0;
+       while (count < 3)
+       {
+          PRINCIPAL = JOptionPane.showInputDialog("Enter the principal");
+          p[count]= Double.parseDouble(PRINCIPAL);
+          count++;
+       }
+       
+       double monthlyPay[] = {0, 0, 0};
+       
+       for (int i = 0; i <= rate.length - 1; i++)
+       {
+           rate[i] = rate[i] / 1200; // yearly rate to monthly
+           term[i] = term[i] * 12; // convert yearly to monthly
+       }
+        
+       for (int j = 0; j <= monthlyPay.length - 1; j++) // 3 sets of data
+       {
+		 System.out.println("The " + (j + 1) + "st " + "set of data: ");
+           for(int k = 0; k <= 360; k++) // will count down 1 whole year worth data(1 set)
+           {
+	       
+               double temp = p[j]; // to hold initial principal
+                monthlyPay[j] = p[j] * rate[j] / (1 - Math.pow(rate[j] + 1, -term[j]));   
+                double interest_paid = p[j] * rate[j];
+                double princPaid = monthlyPay[j] - interest_paid;
+                p[j] = p[j] - princPaid;
+                System.out.println("Mortgage payment \t" + "Interest paid \t" + "\t\tPrincipal \t" + " Monthly Payment  ");
+                System.out.println(change.format(temp) + "  \t\t" + " " + change.format(interest_paid) + " \t\t " + " " + change.format(p[j]) + "\t\t " + change.format(monthlyPay[j]));
+                
+                if (k % 20 == 0) // sleep after each 20
+                {
+                    try
+                    {
+                        Thread.sleep(2000);
+                    }
+                    catch(Exception e){}
+                }
+           }
+           
+       }
+                
+            
+        // TODO code application logic here
+         
+    }// end main   
+}// end ArrayInit

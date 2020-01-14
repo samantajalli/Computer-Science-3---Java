@@ -1,0 +1,53 @@
+import javax.swing.JOptionPane;
+import java.text.DecimalFormat;
+public class Amortization {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        String Principal;
+        String Rate;
+        String Term;
+        DecimalFormat twoDigits = new DecimalFormat("0.00");
+        
+        Principal = JOptionPane.showInputDialog("Enter the principal");
+        Rate = JOptionPane.showInputDialog("Enter the rate");
+        Term = JOptionPane.showInputDialog("Enter the term");
+        
+        double principal = Integer.parseInt(Principal);
+        double rate = Double.parseDouble(Rate) / 1200.0; // convert from yearly rate to monthly
+        int term = Integer.parseInt(Term) * 12; // convert year to months
+        
+        JOptionPane.showMessageDialog(null, "The principal is " + twoDigits.format(principal),
+                "Results", JOptionPane.PLAIN_MESSAGE);
+        
+        JOptionPane.showMessageDialog(null, "The rate is " + twoDigits.format(rate),
+                "Results", JOptionPane.PLAIN_MESSAGE);
+        
+        JOptionPane.showMessageDialog(null, "The term is " + twoDigits.format(term),
+                "Results", JOptionPane.PLAIN_MESSAGE);
+        
+        double monthlyPayment = (principal * rate) / (1 - Math.pow(rate + 1, -term));
+        
+        for (int i = 1; i <= 360; i++) // start loop for number of payments
+        {
+            double interest_paid = (principal * rate);
+            double princPaid = monthlyPayment - interest_paid;
+            principal = principal - princPaid;
+            System.out.println("Loan balance # " + i +" is " + principal +" and interest paid is " + interest_paid);
+            
+	    if (i % 20 == 0) // sleep after each 20
+	    {
+            	try 
+            	{
+                  Thread.sleep(2000);
+            	}
+            	catch(Exception e){}
+            }
+	    
+        }
+    }
+    
+}

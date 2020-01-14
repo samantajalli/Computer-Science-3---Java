@@ -1,0 +1,19 @@
+/**
+ *
+ * @author saman_tajalli
+ */
+
+public class Assignment5 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+       Inv num1 = new Inv("CoolCat", 3, 5.99);
+       System.out.println(num1.getName());
+       num1.setName("High Roller");
+       num1.printResult();
+   
+       }
+}

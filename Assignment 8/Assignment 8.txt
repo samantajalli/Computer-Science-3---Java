@@ -1,0 +1,108 @@
+/*
+**
+ *
+ * @author Saman Tajalli
+ */
+
+
+import java.text.DecimalFormat;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class NewClass extends JFrame implements ActionListener, ItemListener
+{
+FlowLayout flow = new FlowLayout();
+    DecimalFormat form = new DecimalFormat("0.00");
+    JButton calculate = new JButton("calculate");
+    JButton reset = new JButton("reset");
+    JTextArea result = new JTextArea(10,50);
+    JLabel companyName = new JLabel("Year and Term List");
+    JComboBox termBox = new JComboBox();
+    JLabel sizeList = new JLabel("Enter mortgage");
+   
+    JTextField tfmort = new JTextField(10); // input for mortgage
+    int totalPrice = 0;
+    int  toppingNum;
+    int sizeNum;
+    double sPrice, tPrice, sumPrice;
+    double[] term = {0,7, 15, 30};
+    double[] rate = {0,5.15, 5.35, 5.75};
+    String output;
+    
+    public NewClass()
+    {
+        super("Buy Mortgage");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel pane = new JPanel();
+        pane.setLayout(flow);
+        pane.add(sizeList);
+         pane.add(tfmort);
+        pane.add(calculate);
+        pane.add(reset);
+        pane.add(termBox);
+        pane.add(result);
+       
+        termBox.addItem("none");
+        termBox.addItem("7 years at 5.35%");
+        termBox.addItem("15 years at 5.5%");
+        termBox.addItem("30 years at 5.75%");
+       
+        
+        termBox.addItemListener(this);
+        pane.add(companyName);
+        reset.addActionListener(this);
+        calculate.addActionListener(this);
+        setContentPane(pane);
+        
+        
+    }
+    public static void main(String[] args)
+    {
+        NewClass pframe = new NewClass();
+        pframe.setSize(300,300);
+        pframe.setVisible(true);
+    
+    }
+    
+    public void actionPerformed(ActionEvent e)
+        {
+            Object source = e.getSource();
+            if (source == reset)
+            {
+                tfmort.setText("");
+                result.setText("");
+            }
+            else if (source == calculate)
+            {
+                result.setText("Loan Balance \tInterest Paid");
+                output = tfmort.getText(); // output is a string
+               // sizeNum = termBox.getSelectedIndex();
+                double mortgage = Double.parseDouble(output);
+                double rat = rate[sizeNum] / 1200; // the true rate,yearly to monthly
+                double ter = term[sizeNum] * 12; // yearly to monthly
+                double monthlyPay = mortgage * rat / (1 - Math.pow(rat + 1, -ter));
+                double interest_paid = mortgage * rat;
+                double pricPaid = monthlyPay - interest_paid;
+                mortgage = mortgage - pricPaid; // Loan balance
+                
+
+                result.append("\n" + form.format(mortgage) + " \t" + form.format(interest_paid) + "\nMonthlyPay\n" + form.format(monthlyPay));
+                
+            }
+            
+        }
+    public void itemStateChanged(ItemEvent list)
+    {
+        Object source = list.getSource();
+        if(source == termBox)
+        {
+            sizeNum = termBox.getSelectedIndex();
+           // sPrice = term[sizeNum];
+           // sumPrice = sPrice + tPrice;
+            //output = "Total Price $" + sumPrice;
+            //tfmort.setText(output);
+        }
+       
+        
+    }
+}

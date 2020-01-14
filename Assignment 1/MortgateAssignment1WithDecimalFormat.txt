@@ -1,0 +1,35 @@
+import javax.swing.JOptionPane;
+import java.text.DecimalFormat;
+public class Mortgage {
+    public static void main(String[] args){
+        String Principal;
+        String Rate;
+        String Term;
+        DecimalFormat twoDigits = new DecimalFormat("0.00");
+        
+        Principal = JOptionPane.showInputDialog("Enter the principal");
+        Rate = JOptionPane.showInputDialog("Enter the rate");
+        Term = JOptionPane.showInputDialog("Enter the term");
+        
+        int principal = Integer.parseInt(Principal);
+        double rate = Double.parseDouble(Rate) / 1200.0;
+        int term = Integer.parseInt(Term) * 12;
+        
+        JOptionPane.showMessageDialog(null, "The principal is " + twoDigits.format(principal),
+                "Results", JOptionPane.PLAIN_MESSAGE);
+        
+        JOptionPane.showMessageDialog(null, "The rate is " + twoDigits.format(rate),
+                "Results", JOptionPane.PLAIN_MESSAGE);
+        
+        JOptionPane.showMessageDialog(null, "The term is " + twoDigits.format(term),
+                "Results", JOptionPane.PLAIN_MESSAGE);
+        
+        double monthlyPayment = (principal * rate) / (1 - Math.pow(rate + 1, -term));
+        
+        JOptionPane.showMessageDialog(null, "The monthly payment is " + twoDigits.format(monthlyPayment),
+              "Results", JOptionPane.PLAIN_MESSAGE);
+      
+    } // end main
+
+    
+}// end Mortgage class

@@ -1,0 +1,84 @@
+FlowLayout flow = new FlowLayout();
+    JButton calculate = new JButton("calculate");
+    JLabel companyName = new JLabel("MovieBox");
+    JComboBox termBox = new JComboBox();
+    JLabel sizeList = new JLabel("term List");
+    JComboBox rateBox = new JComboBox();
+    JLabel rateList = new JLabel("rate List");
+    JTextField totPrice = new JTextField(10);
+    int totalPrice = 0;
+    int  toppingNum;
+    int sizeNum;
+    double sPrice, tPrice, sumPrice;
+    double[] term = {7, 15, 30};
+    double[] rate = {5.15, 5.35, 5.75};
+    String output;
+    
+    public TestPanels()
+    {
+        super("MovieBox rental");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel pane = new JPanel();
+        pane.setLayout(flow);
+        
+        pane.add(calculate);
+        
+        termBox.addItem("7 years");
+        termBox.addItem("15 years");
+        termBox.addItem("30 years");
+        
+       rateBox.addItem("5.15");
+        rateBox.addItem("5.35");
+        rateBox.addItem("5.75");
+       
+        pane.add(sizeList);
+        pane.add(termBox);
+        termBox.addItemListener(this);
+       // pane.add(toppingList);
+        pane.add(rateBox);
+       rateBox.addItemListener(this);
+        pane.add(companyName);
+        pane.add(totPrice);
+        calculate.addItemListener(this);
+        setContentPane(pane);
+        
+        
+    }
+    public static void main(String[] args)
+    {
+        TestPanels pframe = new TestPanels();
+        pframe.setSize(200,200);
+        pframe.setVisible(true);
+    
+    }
+    
+    public void itemStateChanged(ItemEvent list)
+    {
+        Object source = list.getSource();
+        if(source == termBox)
+        {
+            sizeNum = termBox.getSelectedIndex();
+            sPrice = term[sizeNum];
+            sumPrice = sPrice + tPrice;
+            output = "Total Price $" + sumPrice;
+            totPrice.setText(output);
+        }
+        else if(source == rateBox)
+        {
+            toppingNum = rateBox.getSelectedIndex();
+            tPrice = rate[toppingNum];
+            sumPrice = sPrice + tPrice;
+            output = "Total Price $" + sumPrice;
+            totPrice.setText(output);
+        }
+        else if(source == calculate)
+        {
+            double amswer = term[0] * rate[0];
+            //double num = answer
+            //output.setText(num.toString());
+        }
+        public void actionPerformed(ActionEvent e)
+        {
+            
+        }
+    }

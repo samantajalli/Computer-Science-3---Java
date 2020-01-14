@@ -1,0 +1,70 @@
+
+/**
+ *
+ * @author saman_tajalli
+ */
+public class Inv 
+{
+    private String name;
+    private int quantity;
+    private double price;
+    private double total_cost;
+    
+    public Inv()
+    {
+        
+    }
+    
+    public Inv(String nam, int quant, double pric)
+    {
+        name = nam;
+        quantity = quant;
+        price = pric;
+        
+    }
+    
+    public String getName()
+    {
+        return name;
+    }
+    
+    public int getQuantity()
+    {
+        return quantity;
+    }
+    
+    public double getPrice()
+    {
+        return price;
+    }
+
+    public double getTotalCost()
+	{
+            return quantity * price;
+	}
+    
+    public void setName(String nam)
+    {
+        name = nam;
+    }
+    
+    public void setQuantity(int quant)
+    {
+        quantity = quant;
+    }
+    
+    public void setPrice(double pric)
+    {
+        price = pric;
+    }
+
+   
+    
+    public void printResult()
+    {
+        
+        System.out.println("Name \t" + "Quantity \t" + "Price \t" + "Total Cost");
+        System.out.println(name + " \t" + quantity + " \t" + price + " \t" + getTotalCost());
+        
+    }
+}

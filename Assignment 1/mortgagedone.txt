@@ -1,0 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package firstproject;
+
+/**
+ *
+ * @author saman_tajalli
+ */
+import javax.swing.JOptionPane;
+public class Mortgage {
+    public static void main(String[] args){
+        String Principal; // Money started with
+        String Rate; // the rate paid
+        String Term; // the time period of the mortgage
+        
+        Principal = JOptionPane.showInputDialog("Enter the principal"); // input for principal
+        Rate = JOptionPane.showInputDialog("Enter the rate"); // input for rate
+        Term = JOptionPane.showInputDialog("Enter the term"); // input for term
+        
+        int principal = Integer.parseInt(Principal); // make what was input an integer
+        double rate = Double.parseDouble(Rate) / 12; // make what was input rate and divide by 12 so rate is monthly
+        int term = Integer.parseInt(Term) * 12; // make what was input an integer and multiply by 12 so the term is monthly
+        
+        
+     
+      
+     double monthlyPayment = (principal * rate) / (1 - Math.pow(rate + 1, -term));
+      System.out.println("The monthly payment is: \n" + monthlyPayment);
+      
+    } // end main
+
+    
+}// end Mortgage class
